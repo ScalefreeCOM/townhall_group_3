@@ -1,21 +1,21 @@
-
-# Name your project! Project names should contain only lowercase characters
-# and underscores. A good package name should reflect your organization's
-# name or the intended use of these models
-name: 'my_new_project'
+name: 'bigquery_edw'
 version: '1.0.0'
 config-version: 2
+require-dbt-version: '>=1.3.0'
 
-# This setting configures which "profile" dbt uses for this project.
-profile: 'default'
+profile: 'bigquery-edw'
 
-# These configurations specify where dbt should look for different types of files.
-# The `source-paths` config, for example, states that models in this project can be
-# found in the "models/" directory. You probably won't need to change these!
+vars:
+  disable_dbt_invocation_autoupload: "{{ target.name != 'prod' }}"
+  freshness_hours_warn: '42' # Freshness check time period in hours
+  freshness_hours_error: '70'
+  query_max_size: 50000
+
+# Configuring paths
 model-paths: ["models"]
 analysis-paths: ["analysis"]
 test-paths: ["tests"]
-seed-paths: ["data"]
+seed-paths: ["seeds"]
 macro-paths: ["macros"]
 snapshot-paths: ["snapshots"]
 
@@ -24,15 +24,60 @@ clean-targets:         # directories to be removed by `dbt clean`
   - "target"
   - "dbt_modules"
 
+dispatch:
+  - macro_namespace: datavault4dbt
+    search_order: ['datavault4dbt', 'bigquery-edw']
 
-# Configuring models
-# Full documentation: https://docs.getdbt.com/docs/configuring-models
+#vars:
+#  dbt_artifacts_database: scalefree-edw-dev
+#  dbt_artifacts_schema: meta
 
-# In this example config, we tell dbt to build all models in the example/ directory
-# as tables. These settings can be overridden in the individual model files
-# using the `{{ config(...) }}` macro.
 models:
-  my_new_project:
-    # Config indicated by + and applies to all files under models/example/
-    example:
+  bigquery_edw:
+    .archive:
+      +enabled: false
+    stg_raw:
       +materialized: view
+      +schema: stage
+      +meta: 
+        layer: stage
+    stg_dv:
+      +materialized: view
+      +schema: stage
+      +meta: 
+        layer: stage
+    raw_vault:
+      +materialized: table
+      +schema: edw_core
+      +meta: 
+        layer: raw-vault
+      PARDOT:
+        +meta: 
+          source: PARDOT
+        RpCLQX:
+          +materialized: incremental
+          v0:
+            +materialized: incremental
+            +meta: 
+              type: satellite
+          v1:
+            +materialized: view 
+    business_vault:
+      +materialized: incremental
+      +schema: edw_core
+      +meta: 
+        layer: business-vault
+    marts:
+      +materialized: view
+      +meta: 
+        layer: information-delivery
+    control:
+      +materialized: incremental
+      +schema: control
+      +meta: 
+        layer: control
+  elementary:
+    +schema: 'meta'
+
+#on-run-end:
+#  - "{{ elementary.upload_dbt_artifacts(results) }}" 
