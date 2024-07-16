@@ -1,3 +1,6 @@
-users.yml
+.user.yml
 profiles.yml
-
+dbt_packages/
+package-lock.yml
+logs/
+targets/
