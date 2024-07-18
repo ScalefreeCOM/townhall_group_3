@@ -38,30 +38,21 @@ models:
       +enabled: false
     stg_raw:
       +materialized: view
-      +schema: stage
-      +meta: 
-        layer: stage
+      # +schema: townhall3
+      # +meta: 
+      #   layer: townhall
     stg_dv:
       +materialized: view
-      +schema: stage
-      +meta: 
-        layer: stage
     raw_vault:
       +materialized: table
-      +schema: edw_core
-      +meta: 
-        layer: raw-vault
-      PARDOT:
-        +meta: 
-          source: PARDOT
-        RpCLQX:
+      TOWNHALL_3:
+        +materialized: incremental
+        v0:
           +materialized: incremental
-          v0:
-            +materialized: incremental
-            +meta: 
-              type: satellite
-          v1:
-            +materialized: view 
+          +meta: 
+            type: satellite
+        v1:
+          +materialized: view 
     business_vault:
       +materialized: incremental
       +schema: edw_core
@@ -79,5 +70,3 @@ models:
   elementary:
     +schema: 'meta'
 
-#on-run-end:
-#  - "{{ elementary.upload_dbt_artifacts(results) }}" 
