@@ -1,0 +1,13 @@
+version: 2
+
+
+sources:
+  - name: townhall_3
+    # database: scalefree-edw-test
+    schema: test_tables
+    tables:
+      - name: salesdata
+models:
+- name: stg_sales_data
+  description: Unnested data of the corresponding external table
+
