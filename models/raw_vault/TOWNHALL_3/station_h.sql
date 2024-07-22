@@ -1,9 +1,17 @@
 {%- set yaml_metadata -%}
-hashkey: 'hk_account_h'
+hashkey: 'hk_station_h'
 business_keys: 
-    - start_station_id
-    - end_station_id
-source_models: stg_dv_bike_trip
+    - station_id
+source_models: 
+    - name: stg_dv_bike_trip
+      hk_column: hk_start_station_h
+      bk_columns:
+        - start_station_id
+    - name: stg_dv_bike_trip
+      hk_column: hk_end_station_h
+      bk_columns:
+        - end_station_id
+
 {%- endset -%}
 
 {%- set metadata_dict = fromyaml(yaml_metadata) -%}

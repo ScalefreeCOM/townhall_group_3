@@ -1,7 +1,7 @@
 {%- set yaml_metadata -%}
 hashkey: "hk_customer_key"
 business_keys: 
- - customer_key
+    - customer_key
 source_models: 
     - name: stg_dv_sales_data
       hk_column: 'hk_customer_key'
