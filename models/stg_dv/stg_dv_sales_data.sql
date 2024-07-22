@@ -14,9 +14,12 @@ hashed_columns:
         - invoice_number
 
     # Link
-    hk_customer_invoice_product_l:
+    hk_invoice_nl:
         - customer_key
         - item_number
+        - invoice_number
+
+    hk_invoice_line_item_l:
         - invoice_number
         - line_item
 
@@ -27,10 +30,9 @@ hashed_columns:
             - item_name
             - item_price
 
-    hd_invoice_info_lrn_s:
+    hd_line_item_info_lrn_s:
         is_hashdiff: true
         columns:
-            - invoice_date
             - quantity
             - discount
 

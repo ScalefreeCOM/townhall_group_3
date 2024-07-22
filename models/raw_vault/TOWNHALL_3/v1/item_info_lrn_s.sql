@@ -1,6 +1,6 @@
 {%- set yaml_metadata -%}
 sat_v0: "item_info_lrn0_s" 
-hashkey: "hk_customer_invoice_product_l"
+hashkey: "hk_item_number"
 hashdiff: "hd_item_info_lrn_s"
 ledts_alias: 'ledts'
 add_is_current_flag: true

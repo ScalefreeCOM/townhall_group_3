@@ -1,9 +1,8 @@
 {%- set yaml_metadata -%}
-parent_hashkey: "hk_customer_invoice_product_l"
-src_hashdiff: "hd_invoice_info_lrn_s"
+parent_hashkey: "hk_invoice_line_item_l"
+src_hashdiff: "hd_line_item_info_lrn_s"
 source_model: "stg_dv_sales_data"
 src_payload: 
-        - invoice_date
         - quantity
         - discount
 {%- endset -%}    
