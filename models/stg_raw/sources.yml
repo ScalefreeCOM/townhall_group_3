@@ -7,7 +7,10 @@ sources:
     schema: test_tables
     tables:
       - name: salesdata
+      - name: austin_bikeshare_trips
 models:
 - name: stg_sales_data
+  description: Unnested data of the corresponding external table
+- name: stg_bike_trip
   description: Unnested data of the corresponding external table
 
