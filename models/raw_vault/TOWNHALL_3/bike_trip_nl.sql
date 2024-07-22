@@ -1,9 +1,9 @@
 {%- set yaml_metadata -%}
 link_hashkey: hk_bike_trip_nl
 foreign_hashkeys: 
-    - bike_id
-    - start_station_id
-    - end_station_id
+    - hk_bike_h
+    - hk_start_station_h
+    - hk_end_station_h
 payload:
     - trip_id
     - subscriber_type
